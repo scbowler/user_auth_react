@@ -6,9 +6,6 @@ import { changeAuth } from '../actions';
 class Nav extends Component {
     renderLinks(){
         const { auth, changeAuth } = this.props;
-        const btnStyle = {
-            width: '131px'
-        };
 
         if(auth){
             return (
@@ -20,16 +17,21 @@ class Nav extends Component {
                         <Link to="/operative-list">Operative List</Link>
                     </li>
                     <li>
-                        <button style={btnStyle} className="btn red darken-2" onClick={() => changeAuth(false)}>Sign Out</button>
+                        <Link to="/sign-out">Sign Out</Link>
                     </li>
                 </Fragment>
             );
         }
 
         return (
-            <li>
-                <button style={btnStyle} className="btn grey" onClick={() => changeAuth(true)}>Sign In</button>
-            </li>
+            <Fragment>
+                <li>
+                    <Link to="/sign-in">Sign In</Link>
+                </li>
+                <li>
+                    <Link to="/sign-up">Sign Up</Link>
+                </li>
+            </Fragment>
         );
     }
 

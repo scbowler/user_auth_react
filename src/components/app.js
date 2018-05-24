@@ -6,6 +6,7 @@ import Home from './home';
 import About from './about';
 import SecretDoc from './secret_doc';
 import OperativeList from './operative_list';
+import SignUp from './sign_up';
 import auth from '../hoc/auth';
 
 const App = () => (
@@ -16,6 +17,7 @@ const App = () => (
             <Route path="/about" component={About} />
             <Route path="/secret-doc" component={auth(SecretDoc)} />
             <Route path="/operative-list" component={OperativeList} />
+            <Route path="/sign-up" component={SignUp} />
         </div>
     </div>
 );
