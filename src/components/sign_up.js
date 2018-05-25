@@ -1,34 +1,22 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { signUp } from '../actions';
+import { signUp, clearAuthError } from '../actions';
+import { renderInput } from '../helpers';
 
 class SignUp extends Component {
-    constructor(props){
-        super(props);
-
-        this.renderInput = this.renderInput.bind(this);
-    }
-
-    renderInput({ input, label, type, meta: { error, touched } }){
-        return (
-            <div>
-                <label>{label}</label>
-                <input {...input} type={ type ? type : 'text'} />
-                <p className="red-text text-darken-2">{ touched && error }</p>
-            </div>
-        )
-    }
 
     handleSignUp(values){
-        console.log('Sign Up Info:', values);
-
         this.props.signUp(values);
+    }
+
+    componentWillUnmount(){
+        this.props.clearAuthError();
     }
     
     render(){
 
-        const { handleSubmit } = this.props;
+        const { handleSubmit, authError } = this.props;
 
         return (
             <div className="row">
@@ -37,11 +25,12 @@ class SignUp extends Component {
                         <div className="card-content">
                             <span className="card-title center">Sign Up</span>
                             <form onSubmit={handleSubmit(this.handleSignUp.bind(this))}>
-                                <Field name="email" label="Email" component={this.renderInput}/>
-                                <Field name="password" label="Password" component={this.renderInput} type="password"/>
-                                <Field name="confirmPassword" label="Confirm Password" component={this.renderInput} type="password"/>
+                                <Field name="email" label="Email" component={renderInput}/>
+                                <Field name="password" label="Password" component={renderInput} type="password"/>
+                                <Field name="confirmPassword" label="Confirm Password" component={renderInput} type="password"/>
                                 <div className="row right-align">
                                     <button className="btn grey darken-2">Sign Up</button>
+                                    <p className="right-align red-text text-darken-2">{authError}</p>
                                 </div>
                             </form>
                         </div>
@@ -76,4 +65,10 @@ SignUp = reduxForm({
     validate: validate
 })(SignUp);
 
-export default connect(null, { signUp })(SignUp);
+function mapStateToProps(state){
+    return {
+        authError: state.user.error
+    }
+}
+
+export default connect(mapStateToProps, { signUp, clearAuthError })(SignUp);
