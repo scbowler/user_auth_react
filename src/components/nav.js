@@ -1,18 +1,18 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { changeAuth } from '../actions';
+import { signOut } from '../actions';
 
 class Nav extends Component {
     renderLinks(){
-        const { auth, changeAuth } = this.props;
-        const btnStyle = {
-            width: '131px'
-        };
+        const { auth, signOut } = this.props;
 
         if(auth){
             return (
                 <Fragment>
+                    <li>
+                        <Link to="/movie-quote">Movie Quote</Link>
+                    </li>
                     <li>
                         <Link to="/secret-doc">Secret Doc</Link>
                     </li>
@@ -20,16 +20,21 @@ class Nav extends Component {
                         <Link to="/operative-list">Operative List</Link>
                     </li>
                     <li>
-                        <button style={btnStyle} className="btn red darken-2" onClick={() => changeAuth(false)}>Sign Out</button>
+                        <button onClick={signOut} className="btn grey darken-2">Sign Out</button>
                     </li>
                 </Fragment>
             );
         }
 
         return (
-            <li>
-                <button style={btnStyle} className="btn grey" onClick={() => changeAuth(true)}>Sign In</button>
-            </li>
+            <Fragment>
+                <li>
+                    <Link to="/sign-in">Sign In</Link>
+                </li>
+                <li>
+                    <Link to="/sign-up">Sign Up</Link>
+                </li>
+            </Fragment>
         );
     }
 
@@ -59,4 +64,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { changeAuth: changeAuth })(Nav);
+export default connect(mapStateToProps, { signOut })(Nav);
